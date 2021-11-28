@@ -2,7 +2,9 @@
 
 source 'https://rubygems.org/'
 
+
 group :development do
+  gem 'rake'
   gem 'minitest', require: false
 
   gem 'rubocop', require: false

@@ -28,7 +28,6 @@ class DueDateCalculator
       wdays << find_next_workday(wdays.last + 1)
     end
 
-    STDERR.puts wdays.inspect
     return wdays
   end
 

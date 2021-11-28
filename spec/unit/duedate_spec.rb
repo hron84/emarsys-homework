@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative '../spec_helper'
+
 describe DueDateCalculator do
   # This test is written for 2021 since we expect exact results
   subject { DueDateCalculator.new(2021) }

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative '../spec_helper'
+
 describe DueDateCalculator do
   # Generate a random year
   subject { DueDateCalculator.new(ENV.key?('SPEC_YEAR') ? ENV['SPEC_YEAR'].to_i : rand(2221) + 1) }
