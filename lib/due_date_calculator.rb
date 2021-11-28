@@ -11,36 +11,33 @@ class DueDateCalculator
     # STDERR.puts "DEBUG: year: #{year}"
   end
 
-
   def due_date(start_month, start_day, workdays)
     start_date = Date.new(year, start_month, start_day)
-    
+
     wdays = []
 
-    if workday?(start_date)
-      wdays << start_date
-    else
-      wdays << find_next_workday(start_date)
-    end
+    wdays << if workday?(start_date)
+               start_date
+             else
+               find_next_workday(start_date)
+             end
 
     # We already handled the start date
     (workdays - 1).to_i.times do
       wdays << find_next_workday(wdays.last + 1)
     end
 
-    return wdays
+    wdays
   end
 
   def find_next_workday(date)
-    while not workday?(date) do
-      date += 1
-    end
-    return date
+    date += 1 until workday?(date)
+    date
   end
 
   def holiday?(date)
     # Count sunday as holiday
-    holidays.include?(date) or date.wday == 0 or (date.wday == 6 and !work_saturdays.include?(date))
+    holidays.include?(date) or date.wday.zero? or (date.wday == 6 and !work_saturdays.include?(date))
   end
 
   def workday?(date)
@@ -112,7 +109,7 @@ class DueDateCalculator
     @work_saturdays = []
 
     fixed_holidays.each do |d|
-      if (d.month == 12) and (d.day == 24) and (d.wday == 5)
+      if (d.month == 12) && (d.day == 24) && (d.wday == 5)
         # Handle dec 24 specially, if its a friday,
         # then 2 weeks before we schedule a workday
         # This calculation is rough, since hungarian rules
@@ -120,18 +117,18 @@ class DueDateCalculator
         @work_saturdays << (d - 13)
       elsif d.wday == 2
         # Add the previous day as holiday
-        holidays << (d - 1) 
+        holidays << (d - 1)
         # saturday, 2 week before
-        @work_saturdays << (d - 10) 
+        @work_saturdays << (d - 10)
       elsif d.wday == 4
         holidays << (d + 1)
-        
+
         # saturday, 2 week before
-        @work_saturdays << (d - 12) 
+        @work_saturdays << (d - 12)
       end
     end
 
-    return @work_saturdays
+    @work_saturdays
   end
 
   private

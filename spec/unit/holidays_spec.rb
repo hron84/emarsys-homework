@@ -4,7 +4,7 @@ require_relative '../spec_helper'
 
 describe DueDateCalculator do
   # Generate a random year
-  subject { DueDateCalculator.new(ENV.key?('SPEC_YEAR') ? ENV['SPEC_YEAR'].to_i : rand(2221) + 1) }
+  subject { DueDateCalculator.new(ENV.key?('SPEC_YEAR') ? ENV['SPEC_YEAR'].to_i : rand(1..2221)) }
 
   describe 'holidays' do
     it 'should not be empty' do
